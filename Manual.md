@@ -17,7 +17,7 @@
 
 - Установить и запустить IntelliJ IDEA
 - Установить и запустить Docker Desktop
-- Перенести код проекта с Github по ссылке - https://github.com/YulyiaMaxi/Diploma-QA - в локальный репозиторий на IntelliJ IDEA
+- Перенести код проекта с Github в локальный репозиторий на IntelliJ IDEA
 - Открыть проект в IntelliJ IDEA
 - Запустить MySQL, PostgreSQL, NodeJS через терминал командой: docker-compose up
 - В новой вкладке терминала запустить тестируемое приложение:
