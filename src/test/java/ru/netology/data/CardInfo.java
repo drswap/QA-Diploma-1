@@ -1,9 +1,9 @@
 package ru.netology.data;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 @AllArgsConstructor
 public class CardInfo {
     private String number;

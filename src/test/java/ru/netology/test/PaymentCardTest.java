@@ -4,6 +4,7 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import ru.netology.data.CardInfo;
+import ru.netology.data.DBhelper;
 import ru.netology.data.DataHelper;
 import ru.netology.page.MainPage;
 import ru.netology.page.PaymentPage;
@@ -26,6 +27,11 @@ public class PaymentCardTest {
     @AfterAll
     static void tearDownAll() {
         SelenideLogger.removeListener("allure");
+    }
+
+    @AfterEach
+    void cleanBase(){
+        DBhelper.cleanDB();
     }
 
 
@@ -157,7 +163,7 @@ public class PaymentCardTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCardPayment();
-        CardInfo info = dataHelper.getValidCard(-12);
+        CardInfo info = dataHelper.getValidCard();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.YEAR, "Истёк срок действия карты");
     }
@@ -168,7 +174,7 @@ public class PaymentCardTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCardPayment();
-        CardInfo info = dataHelper.getValidCard(12 * 6);
+        CardInfo info = dataHelper.getValidCard();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.YEAR, "Неверно указан срок действия карты");
     }
@@ -191,7 +197,7 @@ public class PaymentCardTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCardPayment();
-        CardInfo info = dataHelper.getValidCardNameLength(1);
+        CardInfo info = dataHelper.getValidCardNameLength();
         paymentPage.fillFields(info);
         paymentPage.checkValidationOk();
     }
@@ -202,7 +208,7 @@ public class PaymentCardTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCardPayment();
-        CardInfo info = dataHelper.getValidCardNameLength(26);
+        CardInfo info = dataHelper.getValidCardNameLength();
         paymentPage.fillFields(info);
         paymentPage.checkValidationOk();
     }

@@ -4,39 +4,41 @@ import com.github.javafaker.Faker;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class DataHelper {
-    public CardInfo getValidCard(int plusMonth) {
+    public static CardInfo getValidCard() {
         Faker faker = new Faker();
-        String number = faker.regexify("[0-9]{16}");
-        String month = LocalDate.now().plusMonths(plusMonth).format(DateTimeFormatter.ofPattern("MM"));
-        String year = LocalDate.now().plusMonths(plusMonth).format(DateTimeFormatter.ofPattern("yy"));
-        String name = faker.name().fullName();
-        String cvv = faker.regexify("[0-9]{3}");
-
-        return new CardInfo(number, month, year, name, cvv);
+        String number = faker.number().digits(16);
+        String cardHolder = faker.name().firstName() + ' ' + faker.name().lastName();
+        String month = "12";
+        String year = "24";
+        String cvv = faker.number().digits(3);
+        return new CardInfo(number, month, year, cardHolder, cvv);
     }
 
-    public CardInfo getValidCard() { //Перегрузка метода со значениями  от +1 месяца до +5 лет по умолчанию
-        return getValidCard(1 + (int) (Math.random() * 12 * 5));
+    //public CardInfo getValidCard() { //Перегрузка метода со значениями  от +1 месяца до +5 лет по умолчанию
+     //   return getValidCard(1 + (int) (Math.random() * 12 * 5));}
+
+    public static CardInfo getValidCardNameLength() {
+        Faker faker = new Faker(new Locale("en"));
+        String cardHolder = faker.name().firstName() + " " + faker.name().lastName();
+        String month = "12";
+        String year = "24";
+        String cvv = faker.number().digits(3);
+        return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
     }
 
-    public CardInfo getValidCardNameLength(int length) {
+    public static CardInfo getAcceptedCard() {
         Faker faker = new Faker();
-        CardInfo card = getValidCard();
-        card.setName(faker.regexify("[A-Z’-]{" + length + "}"));
-        return card;
+        return new CardInfo("4444444444444441", "11", "25", faker.name().firstName() + " " + faker.name().lastName(), faker.number().digits(3));
+
     }
 
-    public CardInfo getAcceptedCard() {
-        CardInfo card = getValidCard();
-        card.setNumber("4444444444444441");
-        return card;
+    public static CardInfo getDeniedCard() {
+        Faker faker = new Faker();
+        return new CardInfo("4444444444444442", "12", "26", faker.name().firstName() + ' ' + faker.name().lastName(), faker.number().digits(3));
     }
 
-    public CardInfo getDeniedCard() {
-        CardInfo card = getValidCard();
-        card.setNumber("4444444444444442");
-        return card;
-    }
+
 }
