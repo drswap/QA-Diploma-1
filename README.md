@@ -30,7 +30,7 @@
     
 ``` java -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app -jar artifacts/aqa-shop.jar ```
 
-Приложение должно открыться на порту 0808:
+Приложение должно открыться на порту 8080:
 
 ``` http://localhost:8080/ ```
 
