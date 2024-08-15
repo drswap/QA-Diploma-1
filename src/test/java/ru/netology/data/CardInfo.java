@@ -6,9 +6,9 @@ import lombok.Value;
 @Value
 @AllArgsConstructor
 public class CardInfo {
-    private String number;
-    private String month;
-    private String year;
-    private String name;
-    private String cvv;
+     String number;
+    String month;
+    String year;
+    String name;
+    String cvv;
 }

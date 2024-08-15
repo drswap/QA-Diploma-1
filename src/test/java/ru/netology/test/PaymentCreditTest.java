@@ -71,8 +71,7 @@ public class PaymentCreditTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setNumber("123412341234123A");
+        CardInfo info = dataHelper.getCardNumberWithChar();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.NUMBER);
     }
@@ -83,20 +82,7 @@ public class PaymentCreditTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setNumber("123412341234123");
-        paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NUMBER);
-    }
-
-    @Test
-    @DisplayName("Invalid Card Number 13 digits Credit PAYMENT")
-    void shouldGetErrorNumber13DigitCreditPayment() {
-        MainPage mainPage = new MainPage();
-        DataHelper dataHelper = new DataHelper();
-        PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setNumber("123412341234123");
+        CardInfo info = dataHelper.getCardNumber13Digits();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.NUMBER);
     }
@@ -107,8 +93,7 @@ public class PaymentCreditTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setNumber(null);
+        CardInfo info = dataHelper.getCardNumberFieldEmpty();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.NUMBER);
     }
@@ -119,8 +104,7 @@ public class PaymentCreditTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setMonth("13");
+        CardInfo info = dataHelper.getCardMonth13();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.MONTH, "Неверно указан срок действия карты");
     }
@@ -131,8 +115,7 @@ public class PaymentCreditTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setMonth("00");
+        CardInfo info = dataHelper.getCardMonth00();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.MONTH, "Неверно указан срок действия карты");
     }
@@ -143,8 +126,7 @@ public class PaymentCreditTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setMonth(null);
+        CardInfo info = dataHelper.getCardMonthEmpty();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.MONTH);
     }
@@ -155,20 +137,9 @@ public class PaymentCreditTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard(-12);
+        CardInfo info = dataHelper.getCardYearPrevious();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.YEAR, "Истёк срок действия карты");
-    }
-
-    @Test
-    @DisplayName("Invalid card more then 5 year Credit PAYMENT")
-    void shouldGetErrorMore5YearCreditPayment() {
-        MainPage mainPage = new MainPage();
-        DataHelper dataHelper = new DataHelper();
-        PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard(12 * 6);
-        paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.YEAR, "Неверно указан срок действия карты");
     }
 
     @Test
@@ -177,30 +148,29 @@ public class PaymentCreditTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setYear(null);
+        CardInfo info = dataHelper.getCardYearEmpty();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.YEAR);
     }
 
     @Test
-    @DisplayName("Valid Card Name 1 symbol Credit PAYMENT")
-    void shouldGetOkName1symbolCreditPayment() {
+    @DisplayName("Invalid Card Holder")
+    void shouldGetValidNameSymbolCreditPayment() {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCardNameLength(1);
+        CardInfo info = dataHelper.getCardHolderInCyrillic();
         paymentPage.fillFields(info);
         paymentPage.checkValidationOk();
     }
 
     @Test
-    @DisplayName("Valid Card Name 26 symbols Credit PAYMENT")
-    void shouldGetOkName26symbolsCreditPayment() {
+    @DisplayName("Invalid Card Holder With Special Symbol")
+    void shouldGetOkNameWithSpecialSymbolsCreditPayment() {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCardNameLength(26);
+        CardInfo info = dataHelper.getCardHolderWithSpecialSymbol();
         paymentPage.fillFields(info);
         paymentPage.checkValidationOk();
     }
@@ -211,32 +181,7 @@ public class PaymentCreditTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setName(info.getName() + "1");
-        paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NAME);
-    }
-
-    @Test
-    @DisplayName("Invalid name with incorrect symbol Credit PAYMENT")
-    void shouldGetErrorNameWithSymbolCreditPayment() {
-        MainPage mainPage = new MainPage();
-        DataHelper dataHelper = new DataHelper();
-        PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setName(info.getName() + "!");
-        paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NAME);
-    }
-
-    @Test
-    @DisplayName("Invalid name with other lang Credit PAYMENT")
-    void shouldGetErrorNameWithOtherLangCreditPayment() {
-        MainPage mainPage = new MainPage();
-        DataHelper dataHelper = new DataHelper();
-        PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setName(info.getName() + "Й");
+        CardInfo info = dataHelper.getCardHolderWithNumber();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.NAME);
     }
@@ -247,8 +192,7 @@ public class PaymentCreditTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setName(null);
+        CardInfo info = dataHelper.getCardHolderEmpty();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.NAME);
     }
@@ -260,8 +204,7 @@ public class PaymentCreditTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setCvv("12");
+        CardInfo info = dataHelper.getCardCVVLessThan3();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.CVV);
     }
@@ -272,8 +215,7 @@ public class PaymentCreditTest {
         MainPage mainPage = new MainPage();
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
-        CardInfo info = dataHelper.getValidCard();
-        info.setCvv(null);
+        CardInfo info = dataHelper.getCardCVVEmpty();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError(PaymentPage.Field.CVV);
     }

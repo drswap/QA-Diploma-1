@@ -7,27 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class DataHelper {
-    public static CardInfo getValidCard() {
-        Faker faker = new Faker();
-        String number = faker.number().digits(16);
-        String cardHolder = faker.name().firstName() + ' ' + faker.name().lastName();
-        String month = "12";
-        String year = "24";
-        String cvv = faker.number().digits(3);
-        return new CardInfo(number, month, year, cardHolder, cvv);
-    }
-
-    //public CardInfo getValidCard() { //Перегрузка метода со значениями  от +1 месяца до +5 лет по умолчанию
-     //   return getValidCard(1 + (int) (Math.random() * 12 * 5));}
-
-    public static CardInfo getValidCardNameLength() {
-        Faker faker = new Faker(new Locale("en"));
-        String cardHolder = faker.name().firstName() + " " + faker.name().lastName();
-        String month = "12";
-        String year = "24";
-        String cvv = faker.number().digits(3);
-        return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
-    }
 
     public static CardInfo getAcceptedCard() {
         Faker faker = new Faker();
@@ -39,6 +18,106 @@ public class DataHelper {
         Faker faker = new Faker();
         return new CardInfo("4444444444444442", "12", "26", faker.name().firstName() + ' ' + faker.name().lastName(), faker.number().digits(3));
     }
-
+    public static CardInfo getCardNumberFieldEmpty() {
+        return new CardInfo(null, "09", "24", "faker.name().firstName() +  ' ' + faker.name().lastName()", "faker.number().digits(3)");
+    }
+    public static CardInfo getCardNumberWithChar() {
+        return new CardInfo("444444444444444A", "11", "25", "faker.name().firstName() +  ' ' + faker.name().lastName()", "faker.number().digits(3)");
+    }
+    public static CardInfo getCardNumber13Digits(){
+        Faker faker = new Faker();
+        String number = faker.number().digits(13);
+        String cardHolder = faker.name().firstName() + ' ' + faker.name().lastName();
+        String month = "12";
+        String year = "24";
+        String cvv = faker.number().digits(3);
+        return new CardInfo(number, month, year, cardHolder, cvv);
+    }
+    public static CardInfo getCardMonth13(){
+        Faker faker = new Faker();
+        String cardHolder = faker.name().firstName() + " " + faker.name().lastName();
+        String month = "13";
+        String year = "24";
+        String cvv = faker.number().digits(3);
+        return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
+    }
+    public static CardInfo getCardMonth00(){
+        Faker faker = new Faker();
+        String cardHolder = faker.name().firstName() + " " + faker.name().lastName();
+        String month = "00";
+        String year = "24";
+        String cvv = faker.number().digits(3);
+        return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
+    }
+    public static CardInfo getCardMonthEmpty(){
+        Faker faker = new Faker();
+        String cardHolder = faker.name().firstName() +"" + faker.name().lastName();
+        String year = "24";
+        String cvv = faker.number().digits(3);
+        return new CardInfo("4444444444444441", null, year, cardHolder, cvv);
+    }
+    public static CardInfo getCardYearPrevious(){
+        Faker faker = new Faker();
+        String cardHolder = faker.name().firstName() + "" + faker.name().lastName();
+        String month = "12";
+        String year = "22";
+        String cvv = faker.number().digits(3);
+        return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
+    }
+    public static CardInfo getCardYearEmpty(){
+        Faker faker = new Faker();
+        String cardHolder = faker.name().firstName() + "" + faker.name().lastName();
+        String month = "12";
+        String cvv = faker.number().digits(3);
+        return new CardInfo("4444444444444441", month, null, cardHolder, cvv);
+    }
+    public static CardInfo getCardHolderInCyrillic() {
+        Faker faker = new Faker(new Locale("ru"));
+        String cardHolder = faker.name().firstName() + " " + faker.name().lastName();
+        String month = "12";
+        String year = "24";
+        String cvv = faker.number().digits(3);
+        return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
+    }
+    public static CardInfo getCardHolderWithSpecialSymbol() {
+        Faker faker = new Faker(new Locale("ru"));
+        String cardHolder = faker.name().firstName() + " " + faker.name().lastName() + "*";
+        String month = "12";
+        String year = "24";
+        String cvv = faker.number().digits(3);
+        return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
+    }
+    public static CardInfo getCardHolderWithNumber() {
+        Faker faker = new Faker(new Locale("ru"));
+        String cardHolder = faker.name().firstName() + " " + faker.name().lastName() + faker.number().digits(1);
+        String month = "12";
+        String year = "24";
+        String cvv = faker.number().digits(3);
+        return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
+    }
+    public static CardInfo getCardHolderEmpty() {
+        Faker faker = new Faker(new Locale("ru"));
+        String cardHolder = " ";
+        String month = "12";
+        String year = "24";
+        String cvv = faker.number().digits(3);
+        return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
+    }
+    public static CardInfo getCardCVVLessThan3() {
+        Faker faker = new Faker(new Locale("en"));
+        String cardHolder = faker.name().firstName() + " " + faker.name().lastName();
+        String month = "12";
+        String year = "24";
+        String cvv = "54";
+        return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
+    }
+    public static CardInfo getCardCVVEmpty() {
+        Faker faker = new Faker(new Locale("en"));
+        String cardHolder = faker.name().firstName() + " " + faker.name().lastName();
+        String month = "12";
+        String year = "24";
+        String cvv = " ";
+        return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
+    }
 
 }
