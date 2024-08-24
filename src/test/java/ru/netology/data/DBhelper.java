@@ -9,9 +9,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBhelper {
-    private static String url = System.getProperty("url");
-    private static String username = System.getProperty("username");
-    private static String password = System.getProperty("password");
+    private static String url = System.getProperty("db.url");
+    private static String username = System.getProperty("db.username");
+    private static String password = System.getProperty("db.password");
 
     private static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(

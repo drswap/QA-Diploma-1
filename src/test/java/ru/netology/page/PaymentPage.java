@@ -105,7 +105,4 @@ public class PaymentPage {
                 .shouldBe(visible);
     }
 
-    public void checkFieldError(Field field) {
-        checkFieldError(field, "Неверный формат"); //Перегрузка метода с параметром текста сообщения ошибки
-    }
 }

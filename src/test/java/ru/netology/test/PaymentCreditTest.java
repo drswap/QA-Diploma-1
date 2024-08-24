@@ -73,7 +73,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardNumberWithChar();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NUMBER);
+        paymentPage.checkFieldError(PaymentPage.Field.NUMBER,"Invalid Card Number Credit PAYMENT with char");
     }
 
     @Test
@@ -84,7 +84,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardNumber13Digits();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NUMBER);
+        paymentPage.checkFieldError(PaymentPage.Field.NUMBER,"Invalid Card Number 13 digits Credit PAYMENT");
     }
 
     @Test
@@ -95,7 +95,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardNumberFieldEmpty();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NUMBER);
+        paymentPage.checkFieldError(PaymentPage.Field.NUMBER,"Empty Card Number Credit PAYMENT");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardMonthEmpty();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.MONTH);
+        paymentPage.checkFieldError(PaymentPage.Field.MONTH,"Empty Card Month Credit PAYMENT");
     }
 
     @Test
@@ -150,7 +150,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardYearEmpty();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.YEAR);
+        paymentPage.checkFieldError(PaymentPage.Field.YEAR,"Empty Card Year Credit PAYMENT");
     }
 
     @Test
@@ -183,7 +183,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardHolderWithNumber();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NAME);
+        paymentPage.checkFieldError(PaymentPage.Field.NAME,"Invalid name with digit Credit PAYMENT");
     }
 
     @Test
@@ -194,7 +194,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardHolderEmpty();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NAME);
+        paymentPage.checkFieldError(PaymentPage.Field.NAME,"Empty Card Name Credit PAYMENT");
     }
 
 
@@ -206,7 +206,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardCVVLessThan3();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.CVV);
+        paymentPage.checkFieldError(PaymentPage.Field.CVV,"Invalid cvv Credit PAYMENT");
     }
 
     @Test
@@ -217,6 +217,6 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardCVVEmpty();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.CVV);
+        paymentPage.checkFieldError(PaymentPage.Field.CVV,"Empty Card CVV Credit PAYMENT");
     }
 }
