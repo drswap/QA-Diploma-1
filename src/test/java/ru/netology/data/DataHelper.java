@@ -10,21 +10,21 @@ public class DataHelper {
 
     public static CardInfo getAcceptedCard() {
         Faker faker = new Faker();
-        return new CardInfo("4444444444444441", "11", "25", faker.name().firstName() + " " + faker.name().lastName(), faker.number().digits(3));
+        return new CardInfo("4444444444444441",LocalDate.now().format(DateTimeFormatter.ofPattern("MM")), LocalDate.now().format(DateTimeFormatter.ofPattern("yy")), faker.name().firstName() + " " + faker.name().lastName(), faker.number().digits(3));
 
     }
 
     public static CardInfo getDeniedCard() {
         Faker faker = new Faker();
-        return new CardInfo("4444444444444442", "12", "26", faker.name().firstName() + " " + faker.name().lastName(), faker.number().digits(3));
+        return new CardInfo("4444444444444442",LocalDate.now().format(DateTimeFormatter.ofPattern("MM")), LocalDate.now().format(DateTimeFormatter.ofPattern("yy")), faker.name().firstName() + " " + faker.name().lastName(), faker.number().digits(3));
     }
     public static CardInfo getCardNumberFieldEmpty() {
         Faker faker = new Faker();
-        return new CardInfo(null,"12","26",faker.name().firstName() + " " + faker.name().lastName(), faker.number().digits(3));
+        return new CardInfo(null,LocalDate.now().format(DateTimeFormatter.ofPattern("MM")),LocalDate.now().format(DateTimeFormatter.ofPattern("yy")),faker.name().firstName() + " " + faker.name().lastName(), faker.number().digits(3));
     }
     public static CardInfo getCardNumberWithChar() {
         Faker faker = new Faker();
-        return new CardInfo("444444444444444A", "11", "25", faker.name().firstName() +  " " + faker.name().lastName(), faker.number().digits(3));
+        return new CardInfo("444444444444444A", LocalDate.now().format(DateTimeFormatter.ofPattern("MM")), LocalDate.now().format(DateTimeFormatter.ofPattern("yy")), faker.name().firstName() +  " " + faker.name().lastName(), faker.number().digits(3));
     }
     public static CardInfo getCardNumber13Digits(){
         Faker faker = new Faker();
@@ -82,7 +82,7 @@ public class DataHelper {
         return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
     }
     public static CardInfo getCardHolderWithSpecialSymbol() {
-        Faker faker = new Faker(new Locale("ru"));
+        Faker faker = new Faker(new Locale("en"));
         String cardHolder = faker.name().firstName() + " " + faker.name().lastName() + "*";
         String month = LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
         String year = LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
@@ -90,7 +90,7 @@ public class DataHelper {
         return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
     }
     public static CardInfo getCardHolderWithNumber() {
-        Faker faker = new Faker(new Locale("ru"));
+        Faker faker = new Faker(new Locale("en"));
         String cardHolder = faker.name().firstName() + " " + faker.name().lastName() + faker.number().digits(1);
         String month = LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
         String year = LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
@@ -98,7 +98,7 @@ public class DataHelper {
         return new CardInfo("4444444444444441", month, year, cardHolder, cvv);
     }
     public static CardInfo getCardHolderEmpty() {
-        Faker faker = new Faker(new Locale("ru"));
+        Faker faker = new Faker(new Locale("en"));
         String cardHolder = " ";
         String month = LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
         String year = LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
