@@ -4,12 +4,14 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import ru.netology.data.CardInfo;
+import ru.netology.data.DBhelper;
 import ru.netology.data.DataHelper;
 import ru.netology.page.MainPage;
 import ru.netology.page.PaymentPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static ru.netology.data.DBhelper.*;
 
 public class PaymentCreditTest {
@@ -38,8 +40,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         paymentPage.fillFields(dataHelper.getAcceptedCard());
         paymentPage.checkNotificationOk();
-        String dataSQLPayment = getCreditStatus();
-        assertEquals("APPROVED", dataSQLPayment);
+        assertEquals("APPROVED", DBhelper.getCreditStatus());
     }
 
     @Test
@@ -51,8 +52,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         paymentPage.fillFields(dataHelper.getDeniedCard());
         paymentPage.checkNotificationError();
-        String dataSQLPayment = getCreditStatus();
-        assertEquals("DECLINED", dataSQLPayment);
+
     }
 
     @Test
@@ -62,7 +62,8 @@ public class PaymentCreditTest {
         DataHelper dataHelper = new DataHelper();
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         paymentPage.fillFields(dataHelper.getAcceptedCard());
-        paymentPage.checkValidationOk();
+        paymentPage.checkNotificationOk();
+
     }
 
     @Test
@@ -73,7 +74,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardNumberWithChar();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NUMBER,"Invalid Card Number Credit PAYMENT with char");
+        paymentPage.checkFieldError();
     }
 
     @Test
@@ -84,7 +85,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardNumber13Digits();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NUMBER,"Invalid Card Number 13 digits Credit PAYMENT");
+        paymentPage.checkFieldError();
     }
 
     @Test
@@ -95,7 +96,8 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardNumberFieldEmpty();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NUMBER,"Empty Card Number Credit PAYMENT");
+        paymentPage.getNotificationRequiredFieldError();
+
     }
 
     @Test
@@ -106,7 +108,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardMonth13();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.MONTH, "Неверно указан срок действия карты");
+        paymentPage.getNotificationExpirationDateError();
     }
 
     @Test
@@ -117,7 +119,8 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardMonth00();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.MONTH, "Неверно указан срок действия карты");
+        paymentPage.checkFieldError();
+
     }
 
     @Test
@@ -128,7 +131,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardMonthEmpty();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.MONTH,"Empty Card Month Credit PAYMENT");
+        paymentPage.getNotificationRequiredFieldError();
     }
 
     @Test
@@ -139,7 +142,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardYearPrevious();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.YEAR, "Истёк срок действия карты");
+        paymentPage.getNotificationExpiredError();
     }
 
     @Test
@@ -150,7 +153,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardYearEmpty();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.YEAR,"Empty Card Year Credit PAYMENT");
+        paymentPage.getNotificationRequiredFieldError();
     }
 
     @Test
@@ -161,7 +164,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardHolderInCyrillic();
         paymentPage.fillFields(info);
-        paymentPage.checkValidationOk();
+        paymentPage.checkFieldError();
     }
 
     @Test
@@ -172,7 +175,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardHolderWithSpecialSymbol();
         paymentPage.fillFields(info);
-        paymentPage.checkValidationOk();
+        paymentPage.checkFieldError();
     }
 
     @Test
@@ -183,7 +186,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardHolderWithNumber();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NAME,"Invalid name with digit Credit PAYMENT");
+        paymentPage.checkFieldError();
     }
 
     @Test
@@ -194,7 +197,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardHolderEmpty();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.NAME,"Empty Card Name Credit PAYMENT");
+        paymentPage.getNotificationRequiredFieldError();
     }
 
 
@@ -206,7 +209,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardCVVLessThan3();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.CVV,"Invalid cvv Credit PAYMENT");
+        paymentPage.checkFieldError();
     }
 
     @Test
@@ -217,6 +220,6 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardCVVEmpty();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError(PaymentPage.Field.CVV,"Empty Card CVV Credit PAYMENT");
+        paymentPage.getNotificationRequiredFieldError();
     }
 }

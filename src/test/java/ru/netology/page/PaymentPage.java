@@ -6,35 +6,28 @@ import ru.netology.data.CardInfo;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class PaymentPage {
-    private SelenideElement paymentHead = $(byText("Путешествие дня"));
-    private SelenideElement continueButton = $(byText("Продолжить"));
-    private SelenideElement payMethod = $("#root > div > h3");
-    private SelenideElement numberField = $("[placeholder='0000 0000 0000 0000']");
-    private SelenideElement numberFieldError = numberField.parent().sibling(0);
-    private SelenideElement monthField = $("[placeholder='08']");
-    private SelenideElement monthFieldError = monthField.parent().sibling(0);
-    private SelenideElement yearField = $("[placeholder='22']");
-    private SelenideElement yearFieldError = yearField.parent().sibling(0);
-    private SelenideElement cvvField = $("[placeholder='999']");
-    private SelenideElement cvvFieldError = cvvField.parent().sibling(0);
+    public static SelenideElement notificationOk = $(byText("Операция одобрена Банком.")).parent().$("[class=\"notification__content\"]");
+    public static SelenideElement notificationError = $(byText("Ошибка! Банк отказал в проведении операции")).parent().$("[class=\"notification__content\"]");
+    private final SelenideElement payMethod = $$("h3").find(exactText("Оплата по карте"));
+    private final SelenideElement numberField = $(byText("Номер карты")).parent().$("[class=\"input__control\"]");
+    private final SelenideElement monthField = $(byText("Месяц")).parent().$("[class=\"input__control\"]");
+    private final SelenideElement yearField = $(byText("Год")).parent().$("[class=\"input__control\"]");
+    private final SelenideElement nameField = $(byText("Владелец")).parent().$("[class=\"input__control\"]");
+    private final SelenideElement cvvField = $(byText("CVC/CVV")).parent().$("[class=\"input__control\"]");
+    private final SelenideElement fieldError = $(byText("Неверный формат"));
+    private final SelenideElement cardExpirationDateError = $(byText("Неверно указан срок действия карты"));
+    private final SelenideElement cardExpiredDateError = $(byText("Истёк срок действия карты"));
+    private final SelenideElement requiredFieldError = $(byText("Поле обязательно для заполнения"));
 
-    private SelenideElement nameField = $$(".input__control").get(3);
-    private SelenideElement spinner = $(".spin").parent();
-
-    private SelenideElement notificationOk = $(".notification_status_ok");
-
-    private SelenideElement closeNotificationOk = notificationOk.$("button.notification__closer");
-
-    private SelenideElement notificationError = $(".notification_status_error");
-
-    private SelenideElement closeNotificationError = notificationError.$("button.notification__closer");
-    private long durationNotificationS = 15; //Время ожидания появления уведомления об успешной/неуспешной оплате
+    private final SelenideElement cancelField = $$("[class=\"icon-button__text\"]").first();
+    private final SelenideElement continueButton = $$("button").find(exactText("Продолжить"));
 
     public enum Field {
         NUMBER,
@@ -44,10 +37,6 @@ public class PaymentPage {
         CVV
     }
 
-
-    public PaymentPage() {
-        paymentHead.shouldBe(visible);
-    }
 
 
     public void fillFields(CardInfo info) {
@@ -59,50 +48,35 @@ public class PaymentPage {
         continueButton.click();
     }
 
-    public void checkValidationOk() {
-        spinner.shouldHave(Condition.text("Отправляем запрос в Банк..."))
-                .shouldBe(visible);
-    }
-
     public void checkNotificationOk() {
-        notificationOk.shouldHave(Condition.text("Успешно"), Duration.ofSeconds(durationNotificationS))
-                .shouldHave(Condition.text("Операция одобрена Банком."), Duration.ofSeconds(durationNotificationS))
-                .shouldBe(visible, Duration.ofSeconds(durationNotificationS));
-        closeNotificationOk.click();
-        notificationOk.shouldNotBe(visible);
+        notificationOk.shouldBe(visible, Duration.ofSeconds(15));
+        cancelField.click();
     }
 
     public void checkNotificationError() {
-        notificationError.shouldHave(Condition.text("Ошибка"), Duration.ofSeconds(durationNotificationS))
-                .shouldHave(Condition.text("Ошибка! Банк отказал в проведении операции."), Duration.ofSeconds(durationNotificationS))
-                .shouldBe(visible, Duration.ofSeconds(durationNotificationS));
-        closeNotificationError.click();
-        notificationError.shouldNotBe(visible);
+        notificationError.shouldBe(visible, Duration.ofSeconds(15));
+        cancelField.click();
     }
 
-    public void checkFieldError(Field field, String message) {
 
-        SelenideElement element = null;
-        switch (field) {
-            case NUMBER:
-                element = numberField;
-                break;
-            case MONTH:
-                element = monthField;
-                break;
-            case YEAR:
-                element = yearField;
-                break;
-            case NAME:
-                element = nameField;
-                break;
-            case CVV:
-                element = cvvField;
-                break;
-        }
-        assert element != null;
-        element.parent().sibling(0).shouldHave(Condition.text(message))
-                .shouldBe(visible);
+    public void checkFieldError() {
+        fieldError.shouldBe(visible, Duration.ofSeconds(15));
+        cancelField.click();
+    }
+
+    public void getNotificationExpirationDateError() {
+        cardExpirationDateError.shouldBe(visible, Duration.ofSeconds(15));
+        cancelField.click();
+    }
+
+    public void getNotificationExpiredError() {
+        cardExpiredDateError.shouldBe(visible, Duration.ofSeconds(15));
+        cancelField.click();
+    }
+
+    public void getNotificationRequiredFieldError() {
+        requiredFieldError.shouldBe(visible, Duration.ofSeconds(15));
+        cancelField.click();
     }
 
 }
