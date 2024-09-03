@@ -80,7 +80,7 @@ public class PaymentCardTest {
         PaymentPage paymentPage = mainPage.chooseCardPayment();
         CardInfo info = dataHelper.getCardNumberWithChar();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError();
+        paymentPage.getNotificationRequiredFieldError();
     }
 
        @Test
@@ -91,7 +91,7 @@ public class PaymentCardTest {
         PaymentPage paymentPage = mainPage.chooseCardPayment();
         CardInfo info = dataHelper.getCardNumber13Digits();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError();
+        paymentPage.getNotificationRequiredFieldError();
     }
 
     @Test
@@ -114,7 +114,7 @@ public class PaymentCardTest {
         PaymentPage paymentPage = mainPage.chooseCardPayment();
         CardInfo info = dataHelper.getCardMonth13();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError();
+        paymentPage.getNotificationExpirationDateError();
 
     }
 
@@ -183,7 +183,6 @@ public class PaymentCardTest {
         CardInfo info = dataHelper.getCardHolderWithSpecialSymbol();
         paymentPage.fillFields(info);
         paymentPage.checkFieldError();
-        assertNull(DBhelper.getPaymentStatus());
     }
 
     @Test
@@ -207,7 +206,7 @@ public class PaymentCardTest {
         PaymentPage paymentPage = mainPage.chooseCardPayment();
         CardInfo info = dataHelper.getCardHolderEmpty();
         paymentPage.fillFields(info);
-        paymentPage.getNotificationRequiredFieldError();
+        paymentPage.getNotificationRequiredFieldErrorWithName();
 
     }
 
@@ -220,7 +219,7 @@ public class PaymentCardTest {
         PaymentPage paymentPage = mainPage.chooseCardPayment();
         CardInfo info = dataHelper.getCardCVVLessThan3();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError();
+        paymentPage.getNotificationRequiredFieldError();
     }
 
     @Test

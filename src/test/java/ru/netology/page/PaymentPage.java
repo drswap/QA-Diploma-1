@@ -21,10 +21,11 @@ public class PaymentPage {
     private final SelenideElement yearField = $(byText("Год")).parent().$("[class=\"input__control\"]");
     private final SelenideElement nameField = $(byText("Владелец")).parent().$("[class=\"input__control\"]");
     private final SelenideElement cvvField = $(byText("CVC/CVV")).parent().$("[class=\"input__control\"]");
-    private final SelenideElement fieldError = $(byText("Неверный формат"));
+    private final SelenideElement fieldError = $(byText("Неверно указан срок действия карты"));
     private final SelenideElement cardExpirationDateError = $(byText("Неверно указан срок действия карты"));
     private final SelenideElement cardExpiredDateError = $(byText("Истёк срок действия карты"));
-    private final SelenideElement requiredFieldError = $(byText("Поле обязательно для заполнения"));
+    private final SelenideElement requiredFieldErrorWithName = $(byText("Поле обязательно для заполнения"));
+    private final SelenideElement requiredFieldError = $(byText("Неверный формат"));
 
     private final SelenideElement cancelField = $$("[class=\"icon-button__text\"]").first();
     private final SelenideElement continueButton = $$("button").find(exactText("Продолжить"));
@@ -50,33 +51,29 @@ public class PaymentPage {
 
     public void checkNotificationOk() {
         notificationOk.shouldBe(visible, Duration.ofSeconds(15));
-        cancelField.click();
     }
 
     public void checkNotificationError() {
         notificationError.shouldBe(visible, Duration.ofSeconds(15));
-        cancelField.click();
     }
 
 
     public void checkFieldError() {
         fieldError.shouldBe(visible, Duration.ofSeconds(15));
-        cancelField.click();
     }
 
     public void getNotificationExpirationDateError() {
-        cardExpirationDateError.shouldBe(visible, Duration.ofSeconds(15));
-        cancelField.click();
+        cardExpirationDateError.shouldBe(visible, Duration.ofSeconds(4));
     }
 
     public void getNotificationExpiredError() {
-        cardExpiredDateError.shouldBe(visible, Duration.ofSeconds(15));
-        cancelField.click();
+        cardExpiredDateError.shouldBe(visible, Duration.ofSeconds(4));
     }
 
     public void getNotificationRequiredFieldError() {
-        requiredFieldError.shouldBe(visible, Duration.ofSeconds(15));
-        cancelField.click();
+        requiredFieldError.shouldBe(visible, Duration.ofSeconds(4));
     }
-
+    public void getNotificationRequiredFieldErrorWithName() {
+        requiredFieldErrorWithName.shouldBe(visible, Duration.ofSeconds(4));
+    }
 }

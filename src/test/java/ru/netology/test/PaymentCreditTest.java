@@ -74,7 +74,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardNumberWithChar();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError();
+        paymentPage.getNotificationRequiredFieldError();
     }
 
     @Test
@@ -85,7 +85,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardNumber13Digits();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError();
+        paymentPage.getNotificationRequiredFieldError();
     }
 
     @Test
@@ -197,7 +197,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardHolderEmpty();
         paymentPage.fillFields(info);
-        paymentPage.getNotificationRequiredFieldError();
+        paymentPage.getNotificationRequiredFieldErrorWithName();
     }
 
 
@@ -209,7 +209,7 @@ public class PaymentCreditTest {
         PaymentPage paymentPage = mainPage.chooseCreditPayment();
         CardInfo info = dataHelper.getCardCVVLessThan3();
         paymentPage.fillFields(info);
-        paymentPage.checkFieldError();
+        paymentPage.getNotificationRequiredFieldError();
     }
 
     @Test
